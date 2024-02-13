@@ -1,0 +1,48 @@
+#####################################################
+# Used for Local Dev Only
+#####################################################
+
+version: "3.8"
+
+x-interactive: &interactive
+  stdin_open: true # docker run -i
+  tty: true # docker run -t
+
+services:
+  db:
+    container_name: db_postgres
+    image: postgres:13.5-alpine
+    restart: &restart-policy unless-stopped
+    env_file:
+      - local.env
+    environment:
+      TZ: Australia/Perth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: local_db
+
+    volumes:
+      - ~/docker/maxgeo/backend/postgres:/var/lib/postgresql/data
+    ports:
+      - "12345:5432"
+    <<: *interactive
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    container_name: backend_django
+
+    env_file:
+      - local.env
+    depends_on:
+      - db
+    ports:
+      - "18001:8000"
+    volumes:
+      - ./src:/app_code  # Adjusted the path to point directly to DEstack
+      - ./logs:/app_code/logs
+    <<: *interactive
+
+volumes:
+  htmlcov:

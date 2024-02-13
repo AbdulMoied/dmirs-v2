@@ -1,0 +1,106 @@
+#####################################################
+# Used for Local Dev Only
+#####################################################
+
+version: "3.8"
+
+x-interactive: &interactive
+  stdin_open: true # docker run -i
+  tty: true # docker run -t
+
+services:
+  db:
+    container_name: sunset_backend_postgres
+    image: postgres:13.5-alpine
+    restart: &restart-policy unless-stopped
+    env_file: &env-file .env
+    environment:
+      TZ: Australia/Perth
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      
+    volumes:
+      - ~/docker/horizon-digital/backend_main/postgres:/var/lib/postgresql/data
+    ports:
+      - "12345:5432"
+    <<: *interactive
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    container_name: sunset_backend_django
+    restart: *restart-policy
+    env_file: *env-file
+    depends_on:
+      - db
+      - celery
+      - celery-beat
+    ports:
+      - "18001:8000"
+    volumes:
+      - ./src:/app_code
+      - ./logs:/app_code/logs
+    <<: *interactive
+  
+  # Celery service for background tasks
+  celery:
+    container_name: celery
+    image: celery:latest
+    build:
+      context: .
+      dockerfile: docker/celery/DockerFile
+    env_file:
+      - .env
+    environment:
+      - APP_ENVIRONMENT=${ENVIRONMENT}
+    volumes:
+      - ./src:/app:rw
+      - ./logs:/app_code/logs
+    depends_on:
+      - redis
+
+      # Celery service for scheduling background tasks.
+  celery-beat:
+    container_name: celery_beat
+    image: celery-beat:latest
+    build:
+      context: .
+      dockerfile: docker/celery_beat/DockerFile
+    env_file:
+      - .env
+    environment:
+      - APP_ENVIRONMENT=${ENVIRONMENT}
+    volumes:
+      - ./src:/app:rw
+      - ./logs:/app_code/logs
+    depends_on:
+      - redis
+      - celery
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+
+  test:
+    build:
+      context: .
+      dockerfile: docker/test/Dockerfile
+    container_name: sunset_backend_test_run
+    restart: "no"
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend_main.settings
+    depends_on:
+      - api
+      - db
+    command: ["sh", "-c", "coverage run --source='.' manage.py test && coverage report && coverage html"]
+    volumes:
+      - ./src:/app_code
+      - htmlcov:/app_code/htmlcov
+
+volumes:
+  htmlcov:
