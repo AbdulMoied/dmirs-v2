@@ -57,7 +57,7 @@ COPY docker/api/setup.sh /app_code/setup.sh
 RUN chmod +x /app_code/setup.sh
 
 # Run setup script for migrations and static files
-RUN /app_code/setup.sh
+#RUN /app_code/setup.sh
 
 # Runtime commands
 CMD echo "Running in \develop environment" \

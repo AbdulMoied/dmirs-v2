@@ -16,14 +16,14 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from authentication.serializers import AccountListSerializer
-from sunset_backend.constants import screens,actions
+from backend_main.constants import screens,actions
 # from backend_main.permissions import UserPermissions
 import copy
 from django.db.models import Q
 from .utils import get_portal_permissions
 
 from threading import Thread
-from sunset_backend.utils import send_mail_to_user
+from backend_main.utils import send_mail_to_user
 
 from drf_yasg.utils import swagger_auto_schema
 from django.utils.decorators import method_decorator
