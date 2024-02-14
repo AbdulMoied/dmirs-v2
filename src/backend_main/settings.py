@@ -47,12 +47,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "sslserver",
-    #"django_celery_results",
-    #"django_celery_beat",
     "storages",
-   # 'channels',
-    #'daphne',
-
     'authentication',
    # 'notifications',
 
@@ -77,6 +72,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "backend_main.middleware.ErrorHandlerMiddleware",
+    "backend_main.middleware.JsonRequestMiddleware"
+
 ]
 
 ROOT_URLCONF = "backend_main.urls"
