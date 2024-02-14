@@ -6,7 +6,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
-from phonenumber_field.modelfields import PhoneNumberField
+
 
 
 class MyAccountManager(BaseUserManager):
@@ -87,7 +87,6 @@ class Account(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(verbose_name="first name", max_length=20)
     last_name = models.CharField(verbose_name="last name", max_length=20)
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    phone_number = PhoneNumberField(null=True, blank=True, unique=True)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_active = models.BooleanField(default=True)
