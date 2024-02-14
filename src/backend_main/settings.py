@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from decouple import config
-from celery import Celery
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ############
 # Env Config
 ############
-POSTGRES_URL = config("POSTGRES_URL", "not-set")
+POSTGRES_URL = config("POSTGRES_HOST", "not-set")
 POSTGRES_DB = config("POSTGRES_DB", "not-set")
 POSTGRES_PORT = config("POSTGRES_PORT", "not-set")
 POSTGRES_USER = config("POSTGRES_USER", "not-set")
@@ -48,12 +47,15 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "sslserver",
-    "django_celery_results",
-    "django_celery_beat",
+    #"django_celery_results",
+    #"django_celery_beat",
     "storages",
-    'channels',
-    'daphne',
+   # 'channels',
+    #'daphne',
+
     'authentication',
+   # 'notifications',
+
     # Default Apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -61,6 +63,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+
 ]
 
 MIDDLEWARE = [
@@ -141,6 +145,7 @@ DATABASES = {
     }
 }
 
+
 LOGGING_DIR = '/app_code/logs'  # Use an absolute path in the Docker environment
 LOGGING = {
     'version': 1,
@@ -192,14 +197,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('redis', 6379)],
-        },
-    },
-}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -255,39 +253,15 @@ SWAGGER_SETTINGS = {
     }
 }
 
-XERO_CLIENT_ID = config("XERO_CLIENT_ID", "not-set")
-XERO_CLIENT_SECRET = config("XERO_CLIENT_SECRET", "not-set")
-XERO_BASE_URL = config("XERO_BASE_URL", "not-set")
 
-SLACK_BOT_TOKEN = config("SLACK_BOT_TOKEN", "not-set")
-SLACK_CLIENT_CHANNEL_WEBHOOK_URL = config("SLACK_CLIENT_CHANNEL_WEBHOOK_URL", "not-set")
-SLACK_HOURS_NOT_LOGGED_WEBHOOK_URL = config("SLACK_HOURS_NOT_LOGGED_WEBHOOK_URL", "not-set")
-SLACK_TICKET_CHANNEL = config("SLACK_TICKET_CHANNEL", "not-set")
-SLACK_HOURS_CHANNEL = config("SLACK_HOURS_CHANNEL", "not-set")
-SLACK_GENERAL_CHANNEL = config("SLACK_GENERAL_CHANNEL", "not-set")
 
-ENVIRONMENT = config("ENVIRONMENT", "not-set")
-JIRA_MAIL = config("JIRA_MAIL", "not-set")
-JIRA_PASSWORD = config("JIRA_PASSWORD", "not-set")
-JIRA_URL = config("JIRA_URL", "not-set")
 
-TEAMS_HOURS_NOT_LOGGED_WEBHOOK_URL = config("TEAMS_HOURS_NOT_LOGGED_WEBHOOK_URL", "not-set")
+
+
 
 FRONTEND_DEV_URL = config("FRONTEND_DEV_URL", "not-set")
 FRONTEND_PROD_URL = config("FRONTEND_PROD_URL", "not-set")
 
-AZURE_CLIENT_ID = config("AZURE_CLIENT_ID", "not-set")
-AZURE_CLIENT_SECRET = config("AZURE_CLIENT_SECRET", "not-set")
-AZURE_TENANT_ID = config("AZURE_TENANT_ID", "not-set")
-AZURE_SCOPES = config("AZURE_SCOPES", "not-set")
-HOURS_NOT_LOGGED_TEAM_ID = config("HOURS_NOT_LOGGED_TEAM_ID", "not-set")
-HOURS_NOT_LOGGED_CHANNEL_ID = config("HOURS_NOT_LOGGED_CHANNEL_ID", "not-set")
+
 
 MAIL_BOX_LAYER_KEY = config("MAIL_BOX_LAYER_KEY", "not-set")
-CLICKUP_API_KEY = config("CLICKUP_API_KEY", "not-set")
-
-# CELERY setup
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-celery = Celery('backend_main', backend='redis://redis:6379', broker='redis://redis:6379')

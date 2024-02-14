@@ -14,15 +14,15 @@ services:
     image: postgres:13.5-alpine
     restart: &restart-policy unless-stopped
     env_file:
-      - local.env
+      - .env
     environment:
       TZ: Australia/Perth
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: local_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
 
     volumes:
-      - ~/docker/maxgeo/backend/postgres:/var/lib/postgresql/data
+      - ~/docker/maxgeo/backend/postgres-dmirs:/var/lib/postgresql/data
     ports:
       - "12345:5432"
     <<: *interactive
@@ -34,7 +34,7 @@ services:
     container_name: backend_django
 
     env_file:
-      - local.env
+      - .env
     depends_on:
       - db
     ports:
