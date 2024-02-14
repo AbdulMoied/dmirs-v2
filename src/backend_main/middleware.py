@@ -1,10 +1,19 @@
 # middleware.py
 
 import logging
+import json
 
+from django.http import JsonResponse
 logger = logging.getLogger(__name__)
 
+from .utils import generic_api_response
+
+
+from .utils import generic_api_response
+
+
 class ErrorHandlerMiddleware:
+
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -12,21 +21,26 @@ class ErrorHandlerMiddleware:
         try:
             response = self.get_response(request)
         except Exception as e:
-            # Log the exception
-            logger.exception("An error occurred: %s", str(e))
+            message = str(e) if e else 'Unknown error'
+            return generic_api_response(False, None, 400, message)
 
-            # Handle the exception gracefully (e.g., redirect to an error page)
-            # Modify this part based on your application's requirements
-
-            response = render(request, 'error_page.html', {'error_message': str(e)}, status=500)
-
+        if response is None:
+            return generic_api_response(False, None, 400, 'Unknown error')
+        if response.status_code == 404:
+            data = {'details': 'Resource not found'}
+            return generic_api_response(False, None, 404, data)
+        if response.status_code == 500:
+            data = {'details': 'Internal server error'}
+            return generic_api_response(False, None, 500, data)
         return response
 
+    def process_exception(self, request, exception):
+        message = str(exception) if exception else 'Unknown error'
+        return generic_api_response(False, None, 400, message)
 
 
-import json
 
-from django.http import JsonResponse
+
 
 
 class JsonRequestMiddleware:
