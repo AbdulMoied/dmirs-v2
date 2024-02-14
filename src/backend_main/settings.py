@@ -53,10 +53,7 @@ INSTALLED_APPS = [
     "storages",
     'channels',
     'daphne',
-
     'authentication',
-    'notifications',
-
     # Default Apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -64,9 +61,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
-    'dashboard.apps.DashboardConfig',
-
 ]
 
 MIDDLEWARE = [

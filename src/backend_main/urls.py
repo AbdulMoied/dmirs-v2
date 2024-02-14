@@ -41,9 +41,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # URLs for LogIn & Logout API
     path('api/', include('authentication.urls')),
-    path('api/', include('notifications.urls')),
-    path('api/', include('projects.urls')),
-    path('api/', include('dashboard.urls')),
     # URLs for API documentation
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^api-docs/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
@@ -51,4 +48,4 @@ urlpatterns = [
     path("ws/", include(websocket_urlpatterns)),
 ]
 
-admin.site.site_header = "SUNSET BACKEND"
+admin.site.site_header = "DMIRS BACKEND"
