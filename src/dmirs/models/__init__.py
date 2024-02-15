@@ -1,3 +1,3 @@
 from .ClientDB import ClientDB
-from .DataFiles import Report
-from .MetaHeader import Headers
+from .DataFile import DataFile
+from .MetaHeader import MetaHeader
