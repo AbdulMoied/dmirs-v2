@@ -2,6 +2,7 @@
 from django.db import connection
 from django.db.utils import OperationalError
 
+
 class DatabaseCheckMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -17,5 +18,3 @@ class DatabaseCheckMiddleware:
 
         response = self.get_response(request)
         return response
-
-

@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-
 ]
 
 MIDDLEWARE = [
@@ -115,8 +114,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-#AUTH_USER_MODEL = "authentication.Account"  # Implementing Custom User Model
-
 WSGI_APPLICATION = "backend_main.wsgi.application"
 
 ASGI_APPLICATION = 'backend_main.asgi.application'
@@ -152,7 +149,6 @@ DATABASES = {
         },
     }
 }
-
 
 LOGGING_DIR = '/app_code/logs'  # Use an absolute path in the Docker environment
 # LOGGING = {
@@ -205,8 +201,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -231,7 +225,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-##### Email Configuration ####
+# Email Configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", "not-set")
 EMAIL_HOST = config("EMAIL_HOST", "not-set")
@@ -261,15 +255,7 @@ SWAGGER_SETTINGS = {
     }
 }
 
-
-
-
-
-
-
 FRONTEND_DEV_URL = config("FRONTEND_DEV_URL", "not-set")
 FRONTEND_PROD_URL = config("FRONTEND_PROD_URL", "not-set")
-
-
 
 MAIL_BOX_LAYER_KEY = config("MAIL_BOX_LAYER_KEY", "not-set")
