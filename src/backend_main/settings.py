@@ -48,8 +48,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "sslserver",
     "storages",
-    'authentication',
-   # 'notifications',
 
     # Default Apps
     "django.contrib.admin",
@@ -72,7 +70,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "backend_main.middleware.ErrorHandlerMiddleware",
-    "backend_main.middleware.JsonRequestMiddleware"
+    "backend_main.middleware.JsonRequestMiddleware",
+    "backend_main.middleware.ApiKeyMiddleware",
+    "backend_main.middleware.DatabaseCheckMiddleware"
 
 ]
 
@@ -115,7 +115,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-AUTH_USER_MODEL = "authentication.Account"  # Implementing Custom User Model
+#AUTH_USER_MODEL = "authentication.Account"  # Implementing Custom User Model
 
 WSGI_APPLICATION = "backend_main.wsgi.application"
 
@@ -144,27 +144,27 @@ DATABASES = {
 
 
 LOGGING_DIR = '/app_code/logs'  # Use an absolute path in the Docker environment
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'debug.log'),
-        },
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': os.path.join(LOGGING_DIR, 'debug.log'),
+#         },
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file', 'console'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+# }
 
 # S3 BUCKETS CONFIG
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID", '')
