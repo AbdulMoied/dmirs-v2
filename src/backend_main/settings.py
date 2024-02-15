@@ -139,6 +139,17 @@ DATABASES = {
         "PASSWORD": POSTGRES_PASSWORD,
         "HOST": POSTGRES_URL,  # Use the IP address of the PostgreSQL service
         "PORT": POSTGRES_PORT,
+    },
+    'db': {
+        'ENGINE': 'mssql',
+        'NAME': config('MDSDBNAME'),
+        'USER': config('MDSDBUSER'),
+        'PASSWORD': config('MDSDBPASSWORD'),
+        'HOST': config('MDSDBHOST'),
+        'PORT': config('MDSDBPORT'),
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',  # Specify driver version
+        },
     }
 }
 
