@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "sslserver",
     "storages",
+    "dmirs.apps.DmirsConfig",
 
     # Default Apps
     "django.contrib.admin",
