@@ -11,10 +11,13 @@ class Command(BaseCommand):
 
         # Seed  Data Files
         self.stdout.write(self.style.SUCCESS('Seeding Data Files'))
-        call_command('data_file_seed')
-        # Seed headers with code
+        call_command('dataFile_seed')
+        # Seed meta headers with code
         self.stdout.write(self.style.SUCCESS('Seeding Headers'))
-        call_command('header_seed')
+        call_command('metaHeader_seed')
+        # Seed Default Columns for data files
+        self.stdout.write(self.style.SUCCESS('Seeding Default Columns for Data Files'))
+        call_command('defaultColumn_seed')
 
         # Add more commands as needed
         self.stdout.write(self.style.SUCCESS('*** Seed Complete. ***'))
