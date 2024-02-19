@@ -72,7 +72,7 @@ MIDDLEWARE = [
     "backend_main.middleware.ErrorHandlerMiddleware",
     "backend_main.middleware.JsonRequestMiddleware",
     "backend_main.middleware.ApiKeyMiddleware",
-    "backend_main.middleware.DatabaseCheckMiddleware"
+    "backend_main.middleware.ParameterCheckMiddleware"
 
 ]
 
@@ -138,7 +138,7 @@ DATABASES = {
         "HOST": POSTGRES_URL,  # Use the IP address of the PostgreSQL service
         "PORT": POSTGRES_PORT,
     },
-    'db': {
+    'db-mds': {
         'ENGINE': 'mssql',
         'NAME': config('MDSDBNAME'),
         'USER': config('MDSDBUSER'),

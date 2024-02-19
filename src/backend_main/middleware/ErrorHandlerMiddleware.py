@@ -17,7 +17,10 @@ class ErrorHandlerMiddleware:
             return generic_api_response(False, None, 400, message)
         if response.status_code == 401:
             data = {'details': 'Unauthorized Request'}
-            return generic_api_response(False, None, 500, data)
+            return generic_api_response(False, None, 401, data)
+        if response.status_code == 403:
+            data = {'details': 'You do not have permission to perform this action.'}
+            return generic_api_response(False, None, 401, data)
         if response is None:
             return generic_api_response(False, None, 400, 'Unknown error')
         if response.status_code == 404:

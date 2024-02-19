@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
         # read the csv file into a dataframe
         df = pd.read_csv(os.path.abspath('dmirs/seed_files/gv_datafile_codes.csv'))
-        print(df)
+
         # create a list of meta headers objects
         datafile_headers_list = []
         for index, row in df.iterrows():
