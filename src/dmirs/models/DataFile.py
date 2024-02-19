@@ -1,6 +1,6 @@
 from django.db import models
-
 from .MetaHeader import MetaHeader
+from .ClientDB import ClientDB
 
 
 class DataFile(models.Model):
@@ -8,17 +8,29 @@ class DataFile(models.Model):
     default_table = models.CharField(max_length=250, null=True, blank=True)
     default_view = models.CharField(max_length=250, null=True, blank=True)
     file_name = models.CharField(max_length=250, null=False, blank=False)
-    headers = models.ManyToManyField('MetaHeader', through='DataFileHeader', related_name='tblDatafileHeader')
+    client = models.ForeignKey(ClientDB, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'tblLIBReportType'
+        db_table = 'tblDatafile'
 
 
 class DataFileHeader(models.Model):
-    data_file = models.ForeignKey(DataFile, on_delete=models.CASCADE)
     header = models.ForeignKey(MetaHeader, on_delete=models.CASCADE)
     order = models.IntegerField()
+    data_file = models.ForeignKey(DataFile, on_delete=models.CASCADE)
+    client = models.ForeignKey(ClientDB, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'tblDatafileHeader'
         unique_together = ('data_file', 'header')
+
+
+class DataFileColumns(models.Model):
+    column_name = models.CharField(max_length=250, null=False, blank=False)
+    alias = models.CharField(max_length=250, null=False, blank=False)
+    order = models.IntegerField(null=False, blank=False)
+    data_file = models.ForeignKey(DataFile, on_delete=models.CASCADE, related_name='columns')
+    client = models.ForeignKey(ClientDB, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'tblDatafileColumn'
