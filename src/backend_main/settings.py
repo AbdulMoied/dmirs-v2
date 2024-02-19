@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "sslserver",
     "storages",
+    "dmirs.apps.DmirsConfig",
 
     # Default Apps
     "django.contrib.admin",
@@ -56,7 +57,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
 
 ]
 
@@ -72,7 +72,7 @@ MIDDLEWARE = [
     "backend_main.middleware.ErrorHandlerMiddleware",
     "backend_main.middleware.JsonRequestMiddleware",
     "backend_main.middleware.ApiKeyMiddleware",
-    "backend_main.middleware.DatabaseCheckMiddleware"
+    "backend_main.middleware.ParameterCheckMiddleware"
 
 ]
 
@@ -115,8 +115,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-#AUTH_USER_MODEL = "authentication.Account"  # Implementing Custom User Model
-
 WSGI_APPLICATION = "backend_main.wsgi.application"
 
 ASGI_APPLICATION = 'backend_main.asgi.application'
@@ -140,7 +138,7 @@ DATABASES = {
         "HOST": POSTGRES_URL,  # Use the IP address of the PostgreSQL service
         "PORT": POSTGRES_PORT,
     },
-    'db': {
+    'db-mds': {
         'ENGINE': 'mssql',
         'NAME': config('MDSDBNAME'),
         'USER': config('MDSDBUSER'),
@@ -152,7 +150,6 @@ DATABASES = {
         },
     }
 }
-
 
 LOGGING_DIR = '/app_code/logs'  # Use an absolute path in the Docker environment
 # LOGGING = {
@@ -205,8 +202,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -221,7 +216,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -231,7 +226,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-##### Email Configuration ####
+# Email Configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", "not-set")
 EMAIL_HOST = config("EMAIL_HOST", "not-set")
@@ -261,15 +256,7 @@ SWAGGER_SETTINGS = {
     }
 }
 
-
-
-
-
-
-
 FRONTEND_DEV_URL = config("FRONTEND_DEV_URL", "not-set")
 FRONTEND_PROD_URL = config("FRONTEND_PROD_URL", "not-set")
-
-
 
 MAIL_BOX_LAYER_KEY = config("MAIL_BOX_LAYER_KEY", "not-set")

@@ -1,8 +1,7 @@
 import hmac
-
 from decouple import config
-from rest_framework.exceptions import AuthenticationFailed
 import logging
+from backend_main.utils import generic_api_response
 
 logger = logging.getLogger(__name__)
 
@@ -19,11 +18,13 @@ class ApiKeyMiddleware:
         api_key = request.headers.get(API_KEY_HEADER)
 
         if not api_key:
-            raise AuthenticationFailed("Missing API key")
-
+            error = {'details': 'Missing API key'}
+            return generic_api_response(False, None, 401, error)
         is_valid = hmac.compare_digest(api_key.encode('utf-8'), SHARED_SECRET.encode('utf-8'))
+
         if not is_valid:
-            raise AuthenticationFailed("Invalid API key")
+            error = {'details': 'Invalid API key'}
+            return generic_api_response(False, None, 401, error)
 
         # You can access the validated API key here for further processing
         request.api_key = api_key
