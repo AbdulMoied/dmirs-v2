@@ -5,6 +5,10 @@ from backend_main.utils import generic_api_response
 
 from dmirs.models import ClientDB
 
+from dmirs.utils.generate_data_files import generate_data_file
+from dmirs.utils.generate_header import generate_header
+from dmirs.utils.generate_data_files import generate_data_file
+
 
 class ConfigView(APIView):
     authentication_classes = []
@@ -21,8 +25,14 @@ class ConfigView(APIView):
         # Create a ClientDB record for the provided db_identifier in an atomic transaction
         with transaction.atomic():
             if not ClientDB.objects.filter(db_id=db_identifier).exists():
-                client_db = ClientDB.objects.create(db_id=db_identifier)
+                client = ClientDB.objects.create(db_id=db_identifier)
+                generate_data_file(client)
+                generate_header(client)
                 
+                print("Data Files successfully created")
+
+
+
             else:
                 return generic_api_response(True, data={"message": "identifier already exists"},
                                             status=status.HTTP_200_OK)
