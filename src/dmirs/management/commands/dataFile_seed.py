@@ -16,7 +16,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS('Existing DataFile Names and codes records deleted.'))
 
         # read the csv file into a dataframe
-        df = pd.read_csv(os.path.abspath('dmirs/seed_files/gv_datafile_codes.csv'))
+        df = pd.read_csv(os.path.abspath('dmirs/config_files/gv_datafile_codes.csv'))
 
         # create a list of meta headers objects
         datafile_headers_list = []
