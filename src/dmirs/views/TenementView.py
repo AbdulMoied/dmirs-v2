@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from backend_main.utils import generic_api_response
 
-from dmirs.models import ClientDB
+from dmirs.models import Client
 
 
 # Import database module and define connection function
@@ -18,7 +18,7 @@ class TenementView(APIView):
         db_identifier = request.GET.get('db_identifier')
 
         # Check if the ClientDB record exists
-        if not ClientDB.objects.filter(db_id=db_identifier).exists():
+        if not Client.objects.filter(db_id=db_identifier).exists():
             data = {
                 "message": "Configuration not found.",
                 "details": "Automated configuration is required. Please trigger the configuration endpoint to set up "
