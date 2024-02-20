@@ -1,5 +1,5 @@
 Name,DefaultColumns
-tblDHColl,"Hole_ID,Hole_Type,Max_Depth,NAT_East,NAT_North,NAT_RL,Collar_Dip,"
+tblDHColl,"Hole_ID,Hole_Type,Max_Depth,NAT_East,NAT_North,NAT_RL,Collar_Dip"
 tblDHSurv,"Hole_ID,MAG_Azimuth,Dip,Depth"
 tblDHSamp,"Hole_ID,SampleID,Depth_From,Depth_To,Sample_Type,Sampled_Date"
 tblDHVeins,"Hole_ID,Depth_From,Depth_To"

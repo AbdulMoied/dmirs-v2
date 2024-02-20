@@ -13,8 +13,10 @@ class ErrorHandlerMiddleware:
         try:
             response = self.get_response(request)
         except Exception as e:
-            message = str(e) if e else 'Unknown error'
-            return generic_api_response(False, None, 400, message)
+            # If an exception occurred during request processing, handle it
+            return self.process_exception(request, e)
+
+        # Continue with your existing logic for non-exception responses
         if response.status_code == 401:
             data = {'details': 'Unauthorized Request'}
             return generic_api_response(False, None, 401, data)
@@ -24,7 +26,10 @@ class ErrorHandlerMiddleware:
         if response is None:
             return generic_api_response(False, None, 400, 'Unknown error')
         if response.status_code == 404:
-            data = {'details': 'Resource not found'}
+            # If it's a 404 response and the content is not empty, return the response as is
+            if response.content or response.streaming:
+                return response
+            data = {'details': 'Resources not found'}
             return generic_api_response(False, None, 404, data)
         if response.status_code == 500:
             data = {'details': 'Internal server error'}

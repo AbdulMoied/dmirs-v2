@@ -16,7 +16,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS('Existing MetaHeader records deleted.'))
 
         # read the csv file into a dataframe
-        df = pd.read_csv(os.path.abspath('dmirs/seed_files/gv_headers.csv'))
+        df = pd.read_csv(os.path.abspath('dmirs/config_files/gv_headers.csv'))
         print(df)
         # create a list of meta headers objects
         metaheaders_list = []
