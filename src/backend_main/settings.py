@@ -69,7 +69,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "backend_main.middleware.ErrorHandlerMiddleware",
+    # "backend_main.middleware.ErrorHandlerMiddleware",
     "backend_main.middleware.JsonRequestMiddleware",
     "backend_main.middleware.ApiKeyMiddleware",
     "backend_main.middleware.ParameterCheckMiddleware"
@@ -106,8 +106,8 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
-    "DEFAULT_PAGINATION_CLASS": "utils.custom_pagination.CustomPageNumberPagination",
-    "PAGE_SIZE": 100,
+    "DEFAULT_PAGINATION_CLASS": "backend_main.utils.CustomPagination",
+    "PAGE_SIZE": 1000,
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
@@ -124,7 +124,7 @@ ASGI_APPLICATION = 'backend_main.asgi.application'
 # ]
 CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = ["https://sunset.dev.horizondigital.au", ]
+CSRF_TRUSTED_ORIGINS = ["https://ip-address", ]
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -152,27 +152,28 @@ DATABASES = {
 }
 
 LOGGING_DIR = '/app_code/logs'  # Use an absolute path in the Docker environment
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'file': {
-#             'level': 'DEBUG',
-#             'class': 'logging.FileHandler',
-#             'filename': os.path.join(LOGGING_DIR, 'debug.log'),
-#         },
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['file', 'console'],
-#             'level': 'DEBUG',
-#             'propagate': True,
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'debug.log'),
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'ERROR',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
 
 # S3 BUCKETS CONFIG
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID", '')
