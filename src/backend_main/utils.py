@@ -10,14 +10,15 @@ from rest_framework.views import exception_handler
 import random
 import string
 
+
 def send_mail_to_user(context):
     if settings.ENVIRONMENT == 'Development':
         context['URL'] = settings.FRONTEND_DEV_URL
     else:
         context['URL'] = settings.FRONTEND_PROD_URL
     email_html_message = render_to_string(
-        'email/send_user_credentials.html',context)
-    
+        'email/send_user_credentials.html', context)
+
     email = EmailMessage(
         "User Credentials",
         email_html_message,
@@ -27,14 +28,15 @@ def send_mail_to_user(context):
     email.content_subtype = 'html'
     email.send()
 
+
 def send_new_password_to_employee(context):
     if settings.ENVIRONMENT == 'Development':
         context['URL'] = settings.FRONTEND_DEV_URL
     else:
         context['URL'] = settings.FRONTEND_PROD_URL
     email_html_message = render_to_string(
-        'email/employee_new_password_mail.html',context)
-    
+        'email/employee_new_password_mail.html', context)
+
     email = EmailMessage(
         "User Credentials",
         email_html_message,
@@ -46,12 +48,14 @@ def send_new_password_to_employee(context):
 
 
 def send_reset_password_email(context):
-        email_html_message = render_to_string(
-        'email/user_reset_password.html',context)
-        email = EmailMessage(
-            'Reset Password Request', email_html_message,settings.DEFAULT_FROM_EMAIL, context['to_email'])
-        email.content_subtype = 'html'
-        email.send()
+    email_html_message = render_to_string(
+        'email/user_reset_password.html', context)
+    email = EmailMessage(
+        'Reset Password Request', email_html_message, settings.DEFAULT_FROM_EMAIL, context['to_email'])
+    email.content_subtype = 'html'
+    email.send()
+
+
 def generic_api_response(success=False, data=None, status=200, error=None, **kwargs):
     # define a standard response format
     if success is True:
@@ -71,8 +75,10 @@ def generic_api_response(success=False, data=None, status=200, error=None, **kwa
     # return a JSON response with the standardized format and status code
     return JsonResponse(response_data, status=status)
 
+
 import random
 import string
+
 
 def custom_exception_handler(exc, context):
     # Call REST framework's default exception handler first,
@@ -87,10 +93,12 @@ def custom_exception_handler(exc, context):
     # Now add the HTTP status code to the response.
     return generic_api_response(False, None, response.status_code, response.data)
 
+
 def generate_password():
     chars = string.ascii_letters + string.digits + string.punctuation
     password = "".join(random.choice(chars) for i in range(8))
     return password
+
 
 class CustomPagination(PageNumberPagination):
     page_size_query_param = 'per_page'

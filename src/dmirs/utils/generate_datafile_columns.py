@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 from django.db.models import Q
-from dmirs.models import DataFileColumns
+from dmirs.models import DataFileColumn
 
 from dmirs.models import DataFile
 
@@ -13,10 +13,10 @@ logger = logging.getLogger(__name__)
 def generate_datafile_columns(client):
     # this function bulk creates records in the metaheaders table, from rows in the gv_headers.csv file
     # Check if MetaHeader table has any records
-    if DataFileColumns.objects.exists():
+    if DataFileColumn.objects.exists():
         # If records exist, delete them
         logger.info('Deleting existing DataFile Default Columns ')
-        client_datafile_columns = DataFileColumns.objects.filter(client=client)
+        client_datafile_columns = DataFileColumn.objects.filter(client=client)
         client_datafile_columns.delete()
         logger.info('Existing DataFile Default Columns deleted.')
 
@@ -29,7 +29,7 @@ def generate_datafile_columns(client):
         if data_file:
             # Iterate over default_columns and create DataFileColumns records
             for order, column_name in enumerate(row['DefaultColumns'].split(','), start=1):
-                DataFileColumns.objects.create(
+                DataFileColumn.objects.create(
                     column_name=column_name.strip(),
                     alias=column_name.strip(),  # You may adjust this as needed
                     order=order,

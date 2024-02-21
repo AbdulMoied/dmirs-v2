@@ -12,13 +12,14 @@ class DataFile(models.Model):
 
     class Meta:
         db_table = 'tblDatafile'
+        ordering = ['id']
         unique_together = ('header_code', 'client')
 
 
 class DataFileHeader(models.Model):
-    header = models.ForeignKey(MetaHeader, on_delete=models.CASCADE)
+    header = models.ForeignKey(MetaHeader, on_delete=models.CASCADE, )
     order = models.IntegerField()
-    data_file = models.ForeignKey(DataFile, on_delete=models.CASCADE)
+    data_file = models.ForeignKey(DataFile, on_delete=models.CASCADE, related_name='headers')
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
 
     class Meta:
@@ -26,7 +27,7 @@ class DataFileHeader(models.Model):
         unique_together = ('data_file', 'header', 'client')
 
 
-class DataFileColumns(models.Model):
+class DataFileColumn(models.Model):
     column_name = models.CharField(max_length=250, null=False, blank=False)
     alias = models.CharField(max_length=250, null=False, blank=False)
     order = models.IntegerField(null=False, blank=False)

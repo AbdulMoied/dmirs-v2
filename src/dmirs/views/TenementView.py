@@ -6,6 +6,8 @@ from backend_main.utils import generic_api_response
 
 from dmirs.models import Client
 
+from dmirs.utils.get_database_name import get_database_name
+
 
 # Import database module and define connection function
 # ...
@@ -29,7 +31,7 @@ class TenementView(APIView):
         # Obtain the database connection from Django's ORM
         connection = connections['db-mds']
         # Use the selected database
-        connection.settings_dict['NAME'] = db_identifier
+        connection.settings_dict['NAME'] = get_database_name(db_identifier)
         # Query your table in the selected database
         with connection.cursor() as cursor:
             cursor.execute("""SELECT [Lease_ID] FROM tblLeases""")
