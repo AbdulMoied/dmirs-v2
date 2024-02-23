@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 
 class DataForm(forms.Form):
     tenements = forms.JSONField()
-    start_date = forms.DateField(input_formats=['%d/%m/%Y'])
-    end_date = forms.DateField(input_formats=['%d/%m/%Y'])
+    start_date = forms.DateField(input_formats=['%d-%m-%Y'])
+    end_date = forms.DateField(input_formats=['%d-%m-%Y'])
 
     def clean_tenements(self):
         tenements = self.cleaned_data['tenements']

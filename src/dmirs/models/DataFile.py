@@ -4,9 +4,13 @@ from .Client import Client
 
 
 class DataFile(models.Model):
+    TYPE_CHOICES = ['collar', 'point']
     header_code = models.CharField(max_length=250, null=False, blank=False)
-    default_table = models.CharField(max_length=250, null=True, blank=True)
-    default_view = models.CharField(max_length=250, null=True, blank=True)
+    table = models.CharField(max_length=250, null=True, blank=True)
+    type = models.CharField(
+        max_length=10,
+        choices=[(choice, choice.capitalize()) for choice in TYPE_CHOICES],
+    )
     file_name = models.CharField(max_length=250, null=False, blank=False)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
 
@@ -14,17 +18,6 @@ class DataFile(models.Model):
         db_table = 'tblDatafile'
         ordering = ['id']
         unique_together = ('header_code', 'client')
-
-
-class DataFileHeader(models.Model):
-    header = models.ForeignKey(MetaHeader, on_delete=models.CASCADE, )
-    order = models.IntegerField()
-    data_file = models.ForeignKey(DataFile, on_delete=models.CASCADE, related_name='headers')
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'tblDatafileHeader'
-        unique_together = ('data_file', 'header', 'client')
 
 
 class DataFileColumn(models.Model):
@@ -37,3 +30,14 @@ class DataFileColumn(models.Model):
     class Meta:
         db_table = 'tblDatafileColumn'
         unique_together = ('column_name', 'data_file', 'client')
+
+
+class DataFileHeader(models.Model):
+    header = models.ForeignKey(MetaHeader, on_delete=models.CASCADE, )
+    order = models.IntegerField()
+    data_file = models.ForeignKey(DataFile, on_delete=models.CASCADE, related_name='headers')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'tblDatafileHeader'
+        unique_together = ('data_file', 'header', 'client')

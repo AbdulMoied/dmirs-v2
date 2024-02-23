@@ -22,4 +22,5 @@ class JsonRequestMiddleware:
                     return generic_api_response(False, None, 400, response_data)
 
         response = self.get_response(request)
+        print(response)
         return response
