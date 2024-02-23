@@ -139,7 +139,7 @@ DATABASES = {
         "PORT": POSTGRES_PORT,
     },
     'db-mds': {
-        'ENGINE': 'mssql',
+        'ENGINE': 'sql_server.pyodbc',
         'NAME': config('MDSDBNAME'),
         'USER': config('MDSDBUSER'),
         'PASSWORD': config('MDSDBPASSWORD'),

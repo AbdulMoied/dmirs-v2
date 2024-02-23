@@ -2,12 +2,13 @@ from django.db import connections, transaction
 from rest_framework import status
 from rest_framework.views import APIView
 from backend_main.utils import generic_api_response
-
 from dmirs.models import Client
-
 from dmirs.utils.generate_headers import generate_headers
 from dmirs.utils.generate_data_files import generate_data_files
 from dmirs.utils.generate_datafile_columns import generate_datafile_columns
+from dmirs.models import MetaHeader
+
+from dmirs.utils.generate_datafile_headers import generate_datafile_headers
 
 
 class ConfigView(APIView):
@@ -26,9 +27,13 @@ class ConfigView(APIView):
         with transaction.atomic():
             if not Client.objects.filter(db_id=db_identifier).exists():
                 client = Client.objects.create(db_id=db_identifier)
-                generate_data_files(client)
+                # all available meta Headers
                 generate_headers(client)
-                generate_datafile_columns(client)
+                # default data files
+                generate_data_files(client, db_identifier)
+                # default data files columns
+                generate_datafile_columns(client, db_identifier)
+                generate_datafile_headers(client)
                 print("Data Files successfully created")
                 return generic_api_response(True, data={"message": "Success"},
                                             status=status.HTTP_200_OK)
@@ -40,14 +45,21 @@ class ConfigView(APIView):
         # Obtain the database connection from Django's ORM
         connection = connections['db-mds']
 
-        # Check if the database with the specific ID exists in master.sys.databases
+        # Check if the database with the specific name exists in master.sys.databases
         with connection.cursor() as cursor:
-            # Raw SQL query to check if the database exists
-            query = f"SELECT 1 FROM master.sys.databases WHERE database_id = {db_identifier}"
+            # Raw SQL query to check if the database exists by name
+            query = f"SELECT 1 FROM master.sys.databases WHERE name = '{db_identifier}'"
             cursor.execute(query)
             exists = cursor.fetchone()
-
+        connection.close()
         if not exists:
-            return False, f"Database with ID '{db_identifier}' does not exist."
+            return False, f"Database with name '{db_identifier}' does not exist."
 
         return True, None
+
+
+def test_function(request):
+    db_identifier = request.GET.get('db_identifier')
+    datafiles = MetaHeader.objects.all()
+    print(datafiles)
+    return generic_api_response(True, data={"message": "identifier already exists"}, )

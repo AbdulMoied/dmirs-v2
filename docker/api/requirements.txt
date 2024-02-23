@@ -56,7 +56,6 @@ typing_extensions
 urllib3
 django-apscheduler
 drf-yasg
-xero-python
 Authlib
 django-storages
 boto3
@@ -74,3 +73,4 @@ pytest
 pytest-django
 django-coverage
 daphne
+sqlalchemy_pyodbc_mssql

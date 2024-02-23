@@ -1,18 +1,35 @@
-HeaderNo,Description,file_name,default_table,default_view
-H0301,Location_data_file,_WASL4_COLL,tblDHColl,null
-H0302,Lithology_data_file,_WADL4_GEO,tblDHLithology,null
-H0303,Assay_data_file,_WADG4_ASS,tblDHSamp,null
-H0304,Survey_data_file,_WADS4_SURV,tblDHSurv,null
-H0305,Point_Assay_data_file,_WADG4_SASS,null,tblVWPTSamp
-H0310,Water_data_file,_WADL4_WATER,tblDHWater,null
-H0313,Alteration_data_file,_WADL4_ALT,tblDHAlteration,null
-H0314,Magsus_data_file,_WADL4_MAGSUS,tblDHMagSus,null
-H0315,Vein_data_file,_WADL4_VEIN,tblDHVeins,null
-H0316,Recovery_data_file,_WADL4_REC,tblDHCoreRecoveryRun,null
-H0317,Weathering_data_file,_WADL4_WEATH,tblDHWeathering,null
-H0318,Downhole_QAQC_data_file,_WAQG4_DQAQC,tblDHSampQC,null
-H0319,Point_QAQC_data_file,_WAQG4_SQAQC,tblPTSampQC,null
-H0320,Other_data_file,_WASL4_META,tblDHMetaData,null
-H0321,XRF_data_file,_WADG4_XRFASS,null,tblVWXRFDHResults
-H0322,PTXRF_data_file,_WADG4_PTXRFASS,null,tblVWXRFResults
-H0323,Point_Samp_data_file,_WASG4_PT_SAMP,null,tblVWPTSamp
+HeaderNo,Description,file_name,table,type
+H0301,Location_data_file,_WASL4_COLL,tblDHColl,collar
+H0302,Lithology_data_file,_WADL4_GEO,tblDHLithology,collar
+H0303,Assay_data_file,_WADG4_ASS,tblDHSamp,collar
+H0304,Survey_data_file,_WADS4_SURV,tblDHSurv,collar
+H0310,Water_data_file,_WADL4_WATER,tblDHWater,collar
+H0313,Alteration_data_file,_WADL4_ALT,tblDHAlteration,collar
+H0314,Magsus_data_file,_WADL4_MAGSUS,tblDHMagSus,collar
+H0315,Vein_data_file,_WADL4_VEIN,tblDHVeins,collar
+H0316,Recovery_data_file,_WADL4_REC,tblDHCoreRecoveryRun,collar
+H0317,Weathering_data_file,_WADL4_WEATH,tblDHWeathering,collar
+H0318,Downhole_QAQC_data_file,_WAQG4_DQAQC,tblDHSampQC,collar
+H0320,Other_data_file,_WASL4_META,tblDHMetaData,collar
+H0321,XRF_data_file,_WADG4_XRFASS,tblVWXRFDHResults,collar
+Sample 1,,tblDHMinerals,tblDHMinerals,collar
+Sample 2,,tblDHOxidation,tblDHOxidation,collar
+Sample 3,,tblDHSulphides,tblDHSulphides,collar
+Sample 4,,tblDHGeology,tblDHGeology,collar
+Sample 5,,tblDHEvents,tblDHEvents,collar
+Sample 6,,tblDHGeophysics,tblDHGeophysics,collar
+Sample 7,,tblDHGeotech,tblDHGeotech,collar
+Sample 8,,tblDHGeotechRMR,tblDHGeotechRMR,collar
+Sample 9,,tblDHGeotechRQD,tblDHGeotechRQD,collar
+Sample 10,,tblDHGrouting,tblDHGrouting,collar
+Sample11,,tblDHMagSusPT,tblDHMagSusPT,collar
+Sample 12,,tblDHSpecGrav,tblDHSpecGrav,collar
+Sample 13,,tblDHStructure,tblDHStructure,collar
+Sample 14,,tblDHStructureOrient,tblDHStructureOrient,collar
+Sample 15,,tblPTSite,tblPTSite,point
+Sample 16,,tblPTGeology,tblPTGeology,point
+Sample 17,,tblPTMagSus,tblPTMagSus,point
+H0305,Point_Assay_data_file,_WADG4_SASS,tblVWPTSamp,point
+H0322,PTXRF_data_file,_WADG4_PTXRFASS,tblVWXRFResults,point
+H0323,Point_Samp_data_file,_WASG4_PT_SAMP,tblPTSamp,point
+H0319,Point_QAQC_data_file,_WAQG4_SQAQC,tblPTSampQC,point
