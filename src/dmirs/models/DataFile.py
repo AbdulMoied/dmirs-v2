@@ -13,6 +13,7 @@ class DataFile(models.Model):
     )
     file_name = models.CharField(max_length=250, null=False, blank=False)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    meta_headers = models.ManyToManyField(MetaHeader, through='DataFileHeader')
 
     class Meta:
         db_table = 'tblDatafile'
